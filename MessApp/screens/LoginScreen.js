@@ -7,11 +7,13 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   // We are doing to store the value of the user, e.g email, password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -102,7 +104,7 @@ const LoginScreen = () => {
               Login
             </Text>
           </Pressable>
-          <Pressable style={{ marginTop: 15 }}>
+          <Pressable onPress={() => navigation.navigate("Register")} style={{ marginTop: 15 }}>
             <Text style={{ textAlign: "center", color: "gray", fontSize: 16 }}>
               Don't have an account?Sign Up
             </Text>
