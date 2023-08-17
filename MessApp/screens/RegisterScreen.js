@@ -112,7 +112,7 @@ const RegisterScreen = () => {
             </Text>
             <TextInput
               //this is in reference to the useState above, we are going to create a value, a prop
-              value={password}
+              value={image}
               //So now to update the value of the text we are goign to use on Changetext:
               onChangeText={(Text) => setImage(Text)}
               style={{
@@ -164,5 +164,6 @@ const RegisterScreen = () => {
 };
 
 export default RegisterScreen;
+
 
 const styles = StyleSheet.create({});
