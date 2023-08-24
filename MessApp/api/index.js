@@ -50,6 +50,21 @@ const Message = require("./models/message");
 app.post("/register", (req, res) => {
   const { name, email, password, image } = req.body;
 
+
+
+  //check if the email in of that particular user
+  app.post("/login",(req,res)=> {
+    const {email,password} = req.body;
+  })
+
+  //check if the email and password are provided 
+  if (!email || !password) {
+    return res.status(404).json({message:"Email and the password are required!"})
+  }
+
+  //check for the user in the database:
+  User.findOne({email}).then((user))
+
   // create a new user object
   const newUser = new User({ name, email, password, image });
 
