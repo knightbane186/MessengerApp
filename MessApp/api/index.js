@@ -63,7 +63,22 @@ app.post("/register", (req, res) => {
   }
 
   //check for the user in the database:
-  User.findOne({email}).then((user))
+  User.findOne({ email }).then(user => {
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    //Compare the provided passwords with the password in thedatabase
+
+    if (user.password !== password) {
+      return res.status(404).json({message:"INvalid Password!"})
+    }
+ const token = createToken(user._id);
+ res.status(200).json({token})
+}).catch((error) =>{
+  console.log("error in finding the user", error);
+  res.status(500).json({message:"Internal server Error!"})
+})
+  
 
   // create a new user object
   const newUser = new User({ name, email, password, image });
