@@ -1,4 +1,6 @@
+import React, { useEffect, useState } from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
@@ -6,14 +8,53 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = () => {
-  // We are doing to store the value of the user, e.g email, password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("authToken"); // Changed 'getToken' to 'getItem'
+        if (token) {
+          navigation.navigate("Home"); // Corrected 'navigat' to 'navigate'
+        } else {
+          // Token not found, show the login screen itself:
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  const handleLogin = () => {
+    const user = {
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("http://localhost:8000/login", user) // Corrected the URL to include the correct port number
+      .then((response) => {
+        console.log(response.data);
+        const token = response.data.token;
+        AsyncStorage.setItem("authToken", token);
+
+        navigation.replace("Home");
+      })
+      .catch((error) => {
+        Alert.alert("Login error", "Invalid email or password");
+        console.log("Login Error", error);
+      });
+  };
+
   return (
     <View
       style={{
@@ -35,7 +76,6 @@ const LoginScreen = () => {
             Sign In
           </Text>
           <Text style={{ fontSize: 17, fontWeight: "600", marginTop: 15 }}>
-            {" "}
             Sign in to your account
           </Text>
         </View>
@@ -45,12 +85,10 @@ const LoginScreen = () => {
               Email
             </Text>
             <TextInput
-              //this is in reference to the useState above, we are going to create a value, a prop
               value={email}
-              //So now to update the value of the text we are goign to use on Changetext:
-              onChangeText={(Text) => setEmail(Text)}
+              onChangeText={(text) => setEmail(text)} // Changed 'Text' to 'text'
               style={{
-                fontSize: email ? 18 : 18, // this is if else
+                fontSize: email ? 18 : 18,
                 borderBottomColor: "gray",
                 borderBottomWidth: 1,
                 marginVertical: 10,
@@ -65,13 +103,11 @@ const LoginScreen = () => {
               Password
             </Text>
             <TextInput
-              //this is in reference to the useState above, we are going to create a value, a prop
               value={password}
-              //So now to update the value of the text we are goign to use on Changetext:
-              onChangeText={(Text) => setPassword(Text)}
+              onChangeText={(text) => setPassword(text)} // Changed 'Text' to 'text'
               secureTextEntry={true}
               style={{
-                fontSize: email ? 18 : 18, // this is if else
+                fontSize: password ? 18 : 18, // Changed 'email' to 'password'
                 borderBottomColor: "gray",
                 borderBottomWidth: 1,
                 marginVertical: 10,
@@ -83,13 +119,13 @@ const LoginScreen = () => {
           </View>
 
           <Pressable
+            onPress={handleLogin}
             style={{
               width: 200,
               backgroundColor: "#4A55A2",
               padding: 15,
               marginTop: 50,
-              marginLeft: "auto",
-              marginRight: "auto",
+              alignSelf: "center", // Changed 'marginLeft' and 'marginRight' to 'alignSelf'
               borderRadius: 6,
             }}
           >
@@ -104,9 +140,12 @@ const LoginScreen = () => {
               Login
             </Text>
           </Pressable>
-          <Pressable onPress={() => navigation.navigate("Register")} style={{ marginTop: 15 }}>
+          <Pressable
+            onPress={() => navigation.navigate("Register")}
+            style={{ marginTop: 15 }}
+          >
             <Text style={{ textAlign: "center", color: "gray", fontSize: 16 }}>
-              Don't have an account?Sign Up
+              Don't have an account? Sign Up
             </Text>
           </Pressable>
         </View>
