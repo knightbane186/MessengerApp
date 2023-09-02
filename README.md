@@ -2,9 +2,8 @@
 Real time chat app w/ React Native using Mongo Db (MERN stack)
 
 # MERN Messenger App
-![Screenshot 2023-09-02 at 6 15 29 pm](https://github.com/knightbane186/MessengerApp/assets/45715758/83fd27b5-8c2b-4f73-8fdc-b107d1151966)
-![Screenshot 2023-09-02 at 6 15 58 pm](https://github.com/knightbane186/MessengerApp/assets/45715758/f5e450ba-4206-4986-a500-c099f01e48e6)
-![Screenshot 2023-09-02 at 6 16 15 pm](https://github.com/knightbane186/MessengerApp/assets/45715758/3429c06b-ac44-4ce4-bd3e-cb2c5cfe1e39)
+
+![](images/yaba.png)
 
 
 A real-time messenger application built using the MERN (MongoDB, Express.js, React, Node.js) stack. This application allows users to send and receive messages in real-time, providing a seamless and interactive chat experience.
